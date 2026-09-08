@@ -1,0 +1,22 @@
+# Environments
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+
+# Secrets
+.env
+webapp/.env
+
+# Data (optional - remove if you want to commit datasets)
+data/raw/*.csv
+data/processed/*.csv
+
+# OS/editor
+.DS_Store
+.vscode/
+*.ipynb_checkpoints/
+
+# Database
+webapp/*.db
