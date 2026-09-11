@@ -34,7 +34,7 @@ shows a risk score + recommended next step for each.
    ```sql
    CREATE DATABASE models_db;
    CREATE USER models_user WITH PASSWORD 'your_password_here';
-   GRANT ALL PRIVILEGES ON DATABASE cdss_db TO cdss_user;
+   GRANT ALL PRIVILEGES ON DATABASE models_db TO models_user;
    ```
 4. Update `webapp/.env` with matching credentials:
    ```
