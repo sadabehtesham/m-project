@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify your email — CDSS</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+  <style>
+    .otp-input {
+      font-size: 1.6rem;
+      letter-spacing: 0.5rem;
+      text-align: center;
+      font-family: var(--font-body);
+    }
+    .otp-input::placeholder { letter-spacing: normal; font-size: 1rem; }
+    .resend-form { display: inline; }
+    .resend-btn {
+      background: none;
+      border: none;
+      color: var(--navy);
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0;
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+    .resend-btn:hover { text-decoration: underline; }
+    .resend-btn:disabled {
+      color: var(--ink-soft);
+      cursor: not-allowed;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-shell">
+
+    <div class="auth-hero">
+      <div class="auth-hero-eyebrow">Clinical Decision Support</div>
+      <h1>Check your inbox.</h1>
+      <p>We sent a 6-digit verification code to confirm it's really you before creating your account.</p>
+
+      <div class="pulse-wrap">
+        <svg class="pulse-svg" viewBox="0 0 420 60" preserveAspectRatio="none">
+          <path class="pulse-path" d="M0,30 L60,30 L80,10 L100,50 L120,30 L150,30 L165,15 L180,30 L420,30" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="auth-form-panel">
+      <div class="auth-card">
+        <h2>Enter verification code</h2>
+        <p class="subtitle">Sent to {{ email }}</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST" data-spinner-form novalidate>
+          {{ form.hidden_tag() }}
+
+          <div class="field" data-field-name="otp">
+            {{ form.otp(id="otp", maxlength="6", inputmode="numeric", autocomplete="one-time-code", **{"class": "otp-input"}) }}
+            <label for="otp" style="position:static;font-size:0.85rem;display:block;margin-top:0.5rem;">6-digit code</label>
+            <div class="field-error-msg">
+              {% for error in form.otp.errors %}{{ error }}{% endfor %}
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary">
+            <span class="spinner"></span>
+            <span class="btn-text">Verify</span>
+          </button>
+        </form>
+
+        <div class="auth-switch">
+          Didn't get a code?
+          <form method="POST" action="{{ url_for('auth.resend_otp') }}" class="resend-form" id="resend-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="resend-btn" id="resend-btn" disabled>
+              Resend code in <span id="countdown">30</span>s
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+  <script>
+    (function () {
+      const RESEND_WAIT_SECONDS = 30;
+      const btn = document.getElementById("resend-btn");
+      const countdownEl = document.getElementById("countdown");
+      let secondsLeft = RESEND_WAIT_SECONDS;
+
+      btn.disabled = true;
+
+      const timer = setInterval(function () {
+        secondsLeft -= 1;
+
+        if (secondsLeft <= 0) {
+          clearInterval(timer);
+          btn.disabled = false;
+          btn.textContent = "Resend code";
+          return;
+        }
+
+        countdownEl.textContent = secondsLeft;
+      }, 1000);
+    })();
+  </script>
+</body>
+</html>

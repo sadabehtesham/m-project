@@ -16,12 +16,10 @@ $hadChanges = $false
 while ($true) {
     $status = @(git status --porcelain)
 
-    if ($status.Count -gt 0) {
-        if (-not $hadChanges) {
-            Write-Host "Change detected; waiting for edits to settle..."
-        }
-        $hadChanges = $true
+    if ($status.Count -gt 0 -and -not $hadChanges) {
+        Write-Host "Change detected; waiting for edits to settle..."
         $lastChange = Get-Date
+        $hadChanges = $true
     } elseif ($hadChanges -and ((Get-Date) - $lastChange).TotalSeconds -ge $QuietSeconds) {
         git add --all
         $staged = @(git diff --cached --name-only)

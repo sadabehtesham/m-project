@@ -1,16 +1,14 @@
-# Data & ML
-pandas
-numpy
-scikit-learn
-xgboost
-matplotlib
-seaborn
-shap
-joblib
-
-# Web framework
 flask
 flask-login
 flask-wtf
 flask-sqlalchemy
 python-dotenv
+scikit-learn
+joblib
+pandas
+numpy
+
+# PostgreSQL driver
+psycopg2-binary
+email-validator
+flask-mail

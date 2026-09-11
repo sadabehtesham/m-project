@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reset password — CDSS</title>
+  <title>Resend verification — CDSS</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
@@ -12,8 +12,8 @@
 
     <div class="auth-hero">
       <div class="auth-hero-eyebrow">Clinical Decision Support</div>
-      <h1>Let's get you back in.</h1>
-      <p>Enter the email on your account and we'll send a link to reset your password.</p>
+      <h1>Didn't get the email?</h1>
+      <p>We'll send a fresh verification link to your inbox.</p>
 
       <div class="pulse-wrap">
         <svg class="pulse-svg" viewBox="0 0 420 60" preserveAspectRatio="none">
@@ -24,8 +24,8 @@
 
     <div class="auth-form-panel">
       <div class="auth-card">
-        <h2>Forgot password</h2>
-        <p class="subtitle">We'll email you a secure reset link.</p>
+        <h2>Resend verification email</h2>
+        <p class="subtitle">Enter the email you signed up with.</p>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
@@ -48,7 +48,7 @@
 
           <button type="submit" class="btn-primary">
             <span class="spinner"></span>
-            <span class="btn-text">Send reset link</span>
+            <span class="btn-text">Send verification link</span>
           </button>
         </form>
 

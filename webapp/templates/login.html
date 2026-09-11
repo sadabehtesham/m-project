@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log in — CDSS</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body{% if get_flashed_messages(category_filter=['error']) %} data-shake-field="email"{% endif %}>
+
+  <div class="auth-shell">
+
+    <!-- Left: hero panel -->
+    <div class="auth-hero">
+      <div class="auth-hero-eyebrow">Clinical Decision Support</div>
+      <h1>Know your risk before symptoms do.</h1>
+      <p>One health form. Five chronic disease risk checks. Clear next steps — in minutes.</p>
+
+      <div class="pulse-wrap">
+        <svg class="pulse-svg" viewBox="0 0 420 60" preserveAspectRatio="none">
+          <path class="pulse-path" d="M0,30 L60,30 L80,10 L100,50 L120,30 L150,30 L165,15 L180,30 L420,30" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Right: form panel -->
+    <div class="auth-form-panel">
+      <div class="auth-card">
+        <h2>Welcome back</h2>
+        <p class="subtitle">Log in to check your risk profile.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST" data-spinner-form novalidate>
+          {{ form.hidden_tag() }}
+
+          <div class="field" data-field-name="email">
+            {{ form.email(id="email", **{"data-validate": "email"}) }}
+            <label for="email">Email</label>
+            <div class="field-error-msg">
+              {% for error in form.email.errors %}{{ error }}{% endfor %}
+            </div>
+          </div>
+
+          <div class="field password-field" data-field-name="password">
+            {{ form.password(id="password") }}
+            <label for="password">Password</label>
+            <button type="button" class="toggle-password" aria-label="Show password">Show</button>
+            <div class="field-error-msg">
+              {% for error in form.password.errors %}{{ error }}{% endfor %}
+            </div>
+          </div>
+
+          <div class="form-row-between">
+            <label class="checkbox-row">
+              {{ form.remember_me() }} Remember me
+            </label>
+            <a href="{{ url_for('auth.forgot_password') }}" class="link">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn-primary">
+            <span class="spinner"></span>
+            <span class="btn-text">Log in</span>
+          </button>
+        </form>
+
+        <div class="auth-switch">
+          Don't have an account? <a href="{{ url_for('auth.signup') }}" class="link">Sign up</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

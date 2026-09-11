@@ -7,3 +7,8 @@ scikit-learn
 joblib
 pandas
 numpy
+
+# PostgreSQL driver
+psycopg2-binary
+email-validator
+flask-mail
