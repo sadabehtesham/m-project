@@ -38,7 +38,7 @@ shows a risk score + recommended next step for each.
    ```
 4. Update `webapp/.env` with matching credentials:
    ```
-   DATABASE_URL=postgresql://cdss_user:your_password_here@localhost:5432/cdss_db
+   DATABASE_URL=postgresql://models_user:your_password_here@localhost:5432/models_db
    ```
 5. Run the Flask app once (`python webapp/app.py`) — it auto-creates the
    `users` and `prediction_history` tables inside `cdss_db` on first run,
