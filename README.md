@@ -41,7 +41,7 @@ shows a risk score + recommended next step for each.
    DATABASE_URL=postgresql://models_user:your_password_here@localhost:5432/models_db
    ```
 5. Run the Flask app once (`python webapp/app.py`) — it auto-creates the
-   `users` and `prediction_history` tables inside `cdss_db` on first run,
+   `users` and `prediction_history` tables inside `models_db` on first run,
    no manual table creation needed.
 
 **Tip:** if you'd rather not install PostgreSQL locally, free hosted options
