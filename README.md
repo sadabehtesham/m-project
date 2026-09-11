@@ -32,8 +32,8 @@ shows a risk score + recommended next step for each.
    ```
 3. Create a dedicated database and user for this project:
    ```sql
-   CREATE DATABASE cdss_db;
-   CREATE USER cdss_user WITH PASSWORD 'your_password_here';
+   CREATE DATABASE models_db;
+   CREATE USER models_user WITH PASSWORD 'your_password_here';
    GRANT ALL PRIVILEGES ON DATABASE cdss_db TO cdss_user;
    ```
 4. Update `webapp/.env` with matching credentials:
