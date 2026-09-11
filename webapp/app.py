@@ -7,6 +7,7 @@ route get added in later steps.
 """
 
 import os
+from pathlib import Path
 from flask import Flask, render_template
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
@@ -16,7 +17,7 @@ from models_db import db, User
 from extensions import mail
 from auth import auth_bp
 
-load_dotenv()
+load_dotenv(Path(__file__).resolve().parent / ".env")
 
 
 def create_app():
