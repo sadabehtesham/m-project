@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your results — CDSS</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">CDSS</div>
+    <div class="user-info">
+      <span>Hi, {{ current_user.name }}</span>
+      <a href="{{ url_for('auth.logout') }}">Log out</a>
+    </div>
+  </div>
+
+  <div class="result-page">
+    <h1>Your health check results</h1>
+    <p class="result-subtitle">
+      Based on the information you entered, here's your risk across all 5 conditions —
+      highest risk shown first.
+    </p>
+
+    {% for r in results %}
+      <div class="disease-card" style="--card-color: {{ r.color }};">
+        <div class="disease-icon" style="background: {{ r.bg }}; color: {{ r.color }};">
+          <i class="fa-solid {{ r.icon }}"></i>
+        </div>
+        <div class="disease-body">
+          <div class="disease-header">
+            <h2>{{ r.display_name }}</h2>
+            <span class="risk-badge {{ r.risk_level | lower }}">{{ r.risk_level }} risk</span>
+          </div>
+          <div class="risk-bar-track">
+            <div class="risk-bar-fill" style="width: {{ r.probability_pct }}%;"></div>
+          </div>
+          <p class="risk-pct">{{ r.probability_pct }}% estimated risk</p>
+          <p class="advice-text">{{ r.advice }}</p>
+        </div>
+      </div>
+    {% endfor %}
+
+    <div class="disclaimer">
+      <strong>Note:</strong> this tool provides an estimated risk based on the information
+      you entered and machine learning models trained on public medical datasets. It is not
+      a diagnosis. Always consult a qualified healthcare professional for medical advice,
+      especially for any condition flagged as moderate or high risk.
+    </div>
+
+    <div class="result-actions">
+      <a href="{{ url_for('index') }}">Check again</a>
+    </div>
+  </div>
+
+</body>
+</html>
