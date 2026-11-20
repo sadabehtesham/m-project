@@ -14,6 +14,18 @@ shows a risk score + recommended next step for each.
 - `reports/` — figures and the written project report
 - `presentation/` — slides for demo/viva
 
+## Create the submission ZIP
+Run the submission packaging script from PowerShell:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/create-submission.ps1
+```
+
+This creates `m-project-submission.zip` in the project root. The archive
+includes all five raw CSV datasets in `data/raw/`, as well as notebooks,
+models, source code, reports, and presentation files. Local secrets and
+SQLite databases are excluded.
+
 ## Setup
 1. Create a virtual environment: `python -m venv venv`
 2. Activate it and run: `pip install -r requirements.txt`
