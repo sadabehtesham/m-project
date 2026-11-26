@@ -1,0 +1,15 @@
+.git/
+.venv/
+venv/
+env/
+__pycache__/
+**/__pycache__/
+*.pyc
+webapp/.env
+webapp/instance/
+instance/
+data/
+notebooks/
+reports/
+presentation/
+*.zip

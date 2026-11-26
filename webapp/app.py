@@ -19,7 +19,7 @@ from auth import auth_bp
 from forms import HealthForm
 from suggestions import get_suggestion
 
-load_dotenv()
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
 
 # Make src/ (project root level, alongside webapp/) importable
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
@@ -72,13 +72,40 @@ def _parse_health_form(form_data):
 
 
 def create_app():
-    app = Flask(__name__)
-
-    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-key-change-me")
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-        "DATABASE_URL", "sqlite:///users.db"
+    is_vercel = os.environ.get("VERCEL") == "1"
+    app = Flask(
+        __name__,
+        # Production assets are served by Vercel from /public. Keep a local
+        # Flask static route for development and `python webapp/app.py`.
+        static_folder=None if is_vercel else "../public/static",
     )
+
+    if is_vercel:
+        # Keep url_for('static', ...) working in templates. Vercel's CDN serves
+        # the matching files from public/static before requests reach Flask.
+        app.add_url_rule(
+            "/static/<path:filename>", endpoint="static", build_only=True
+        )
+
+    secret_key = os.environ.get("SECRET_KEY")
+    database_url = os.environ.get("DATABASE_URL")
+    if is_vercel and not secret_key:
+        raise RuntimeError("Set SECRET_KEY in the Vercel project environment variables.")
+    if is_vercel and not database_url:
+        raise RuntimeError(
+            "Set DATABASE_URL to a persistent PostgreSQL connection string in Vercel."
+        )
+
+    # Some PostgreSQL providers still return the legacy postgres:// scheme.
+    if database_url and database_url.startswith("postgres://"):
+        database_url = "postgresql://" + database_url[len("postgres://"):]
+
+    app.config["SECRET_KEY"] = secret_key or "dev-key-change-me"
+    app.config["SQLALCHEMY_DATABASE_URI"] = database_url or "sqlite:///users.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SESSION_COOKIE_HTTPONLY"] = True
+    app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+    app.config["SESSION_COOKIE_SECURE"] = is_vercel
 
     # --- Email (Gmail SMTP) ---
     app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER", "smtp.gmail.com")

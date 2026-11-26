@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "app.py": {
+      "maxDuration": 30,
+      "includeFiles": [
+        "models/**",
+        "webapp/templates/**"
+      ],
+      "excludeFiles": "{data/**,notebooks/**,reports/**,presentation/**,public/**,**/*.ipynb,**/*.csv,*.zip,webapp/instance/**}"
+    }
+  }
+}
