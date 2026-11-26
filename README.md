@@ -34,6 +34,37 @@ SQLite databases are excluded.
    and update DATABASE_URL with your PostgreSQL username/password
 5. (After models are trained) run the app: `python webapp/app.py`
 
+## Deploy to Vercel
+
+The Vercel entry point and deployment settings are included in the project root:
+`app.py`, `requirements.txt`, `.python-version`, and `vercel.json`. The trained
+models are bundled with the function, while static CSS and JavaScript are served
+from `public/static/` through Vercel's CDN.
+
+1. Push this repository to GitHub, GitLab, or Bitbucket and import it into Vercel.
+2. Keep Vercel's **Root Directory** at the repository root (the `m-project`
+   directory in this workspace, where this README and `vercel.json` live).
+3. Add these environment variables in the Vercel project settings for Preview and
+   Production:
+   - `SECRET_KEY`: a long, random value used to sign sessions.
+   - `DATABASE_URL`: a persistent PostgreSQL connection string. Vercel function
+     filesystems are temporary, so do not use the local SQLite database in a
+     deployed environment. Use a hosted PostgreSQL provider and enable SSL if
+     its connection string requires it.
+   - `MAIL_SERVER`, `MAIL_PORT`, `MAIL_USE_TLS`, `MAIL_USERNAME`,
+     `MAIL_PASSWORD`, and `MAIL_DEFAULT_SENDER`: SMTP settings used to deliver
+     signup verification codes. `MAIL_USE_TLS` should be `true` for port 587.
+4. Deploy. Vercel installs the root `requirements.txt` and serves the Flask
+   application through its Python runtime.
+
+For local Vercel-style development, install the Vercel CLI and run `vercel dev`
+from the repository root. The normal local path remains `python webapp/app.py`; it serves
+the same assets from `public/static/` and uses the local `.env` file.
+
+The forgot-password route currently prints reset links to the application log
+instead of sending them by email. Configure an email flow in the app before
+relying on password recovery for production users.
+
 ## Database setup (PostgreSQL)
 1. Install PostgreSQL:
    - Windows/Mac: download from https://www.postgresql.org/download/

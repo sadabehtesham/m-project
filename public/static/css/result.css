@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+:root { --navy: #171A21; --paper: #F8F9FB; --ink: #171A21; --ink-soft: #667085; --accent: #3767F5; --border: #E8EBF0; --card-bg: #fff; --font-display: 'Space Grotesk', 'Segoe UI', sans-serif; --font-body: 'Manrope', 'Segoe UI', sans-serif; --radius: 12px; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font-body); color: var(--ink); background: var(--paper); font-size: 14px; }
+.topbar { min-height: 68px; display: flex; align-items: center; justify-content: space-between; padding: .8rem max(1.5rem, calc((100vw - 1120px) / 2)); background: #fff; border-bottom: 1px solid var(--border); }
+.topbar .brand { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; letter-spacing: -.045em; }
+.topbar .user-info { display: flex; align-items: center; gap: 1.25rem; color: var(--ink-soft); font-size: .84rem; font-weight: 600; }
+.topbar a { color: var(--ink-soft); text-decoration: none; transition: color .18s ease; }
+.topbar a:hover { color: var(--accent); }
+.result-page { max-width: 820px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem) 1.5rem 4rem; }
+.result-page h1 { font-family: var(--font-display); font-size: clamp(2.25rem, 5vw, 3.15rem); letter-spacing: -.055em; line-height: 1.08; margin: 0 0 .65rem; }
+.result-page .result-subtitle { color: var(--ink-soft); line-height: 1.7; max-width: 65ch; margin: 0 0 2rem; font-size: .91rem; }
+.disease-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.35rem 1.5rem; margin-bottom: .85rem; display: flex; gap: 1rem; align-items: flex-start; box-shadow: 0 1px 2px rgba(16,24,40,.025); transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease; }
+.disease-card:hover { border-color: #D0D5DD; box-shadow: 0 5px 16px rgba(16,24,40,.045); transform: translateY(-1px); }
+.disease-icon { width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+.disease-body { flex: 1; min-width: 0; }
+.disease-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin: .05rem 0 .85rem; }
+.disease-header h2 { font-size: 1.05rem; letter-spacing: -.02em; margin: 0; font-family: var(--font-display); font-weight: 600; }
+.risk-badge { font-size: .7rem; font-weight: 700; padding: .3rem .6rem; border-radius: 6px; white-space: nowrap; }
+.risk-badge.low { background: #ECFDF3; color: #067647; }
+.risk-badge.moderate { background: #FFFAEB; color: #B54708; }
+.risk-badge.high { background: #FEF3F2; color: #B42318; }
+.risk-bar-track { height: 6px; border-radius: 5px; background: #F2F4F7; overflow: hidden; margin-bottom: .45rem; }
+.risk-bar-fill { height: 100%; border-radius: 5px; background: var(--card-color, var(--accent)); }
+.risk-pct { font-size: .76rem; font-weight: 600; color: var(--ink-soft); margin: 0 0 .65rem; }
+.advice-text { font-size: .85rem; line-height: 1.65; color: #475467; margin: 0; }
+.disclaimer { margin-top: 1.5rem; padding: 1rem 1.1rem; background: #EEF3FF; border: 1px solid #DCE6FF; border-radius: 10px; font-size: .8rem; color: #475467; line-height: 1.65; }
+.disclaimer strong { color: #344B82; }
+.result-actions { margin-top: 1.4rem; display: flex; gap: .75rem; }
+.result-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: .7rem 1.25rem; background: var(--accent); color: #fff; text-decoration: none; border: 1px solid var(--accent); border-radius: 8px; font-size: .86rem; font-weight: 700; transition: background .18s ease, box-shadow .18s ease; }
+.result-actions a:hover { background: #2853D8; box-shadow: 0 4px 12px rgba(55,103,245,.18); }
+@media (max-width: 560px) { .topbar { min-height: 60px; padding: .75rem 1rem; } .topbar .user-info { gap: .7rem; font-size: .75rem; } .result-page { padding: 1.75rem 1rem 3rem; } .disease-card { padding: 1rem; gap: .75rem; } .disease-icon { width: 36px; height: 36px; border-radius: 9px; font-size: .9rem; } .disease-header { gap: .5rem; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
